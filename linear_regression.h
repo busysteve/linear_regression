@@ -1,5 +1,6 @@
 
 
+
 class linear_regression
 {
 	double *_tss;   // timestamp or 'x'
@@ -7,6 +8,9 @@ class linear_regression
 
 	long _counter;
 	long _samples;
+
+	double _m;
+	double _b;
 
 	public:
 
@@ -44,10 +48,29 @@ class linear_regression
 		if( (((double)len*lxx)-(lxs*lxs)) == 0.0 )
 			return _lreg[(_counter-1)%_samples];
 
-		double m = (((double)len*lxy)-(lxs*lys))/(((double)len*lxx)-(lxs*lxs));
-		double b = (lys-(m*lxs))/len;
+		_m = (((double)len*lxy)-(lxs*lys))/(((double)len*lxx)-(lxs*lxs));
+		_b = (lys-(_m*lxs))/len;
 
-		return m*(_tss[(_counter-1)%_samples])+b;
+		return _m*(_tss[(_counter-1)%_samples])+_b;
+	}
+
+	double slope()
+	{
+		long cntr = (_counter-1);
+		long cnt_min = ((cntr+1) - _samples) < 0 ? 0 : (cntr+1 - _samples); 
+		long cnt_max = cntr; 
+		cnt_min %= _samples;
+		cnt_max %= _samples;
+		double x1 = _tss[cnt_min];
+		double x2 = _tss[cnt_max];
+		double y1 = _m*(_tss[(cnt_min)])+_b;
+		double y2 = _m*(_tss[(cnt_max)])+_b;
+		
+		if( (x2-x1) == 0.0 )
+			return 0.0;
+
+		double slp = (y2-y1) / (x2-x1);
+		return slp;
 	}
 
 	~linear_regression()
@@ -57,3 +80,5 @@ class linear_regression
 	}
 
 };
+
+
