@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -79,13 +78,16 @@ int main( int argc, char **argv )
 	{
 		//fprintf( fout, "%f\n", atof(line) );
 		lr.log_entry( x, atof(line) );
-		if( show_input )
+		lr.calc();
+		if( show_input && show_slope )
+			fprintf( fout, "%f,%f\n", atof(line), lr.calc(), lr.slope() );
+		else if( show_input )
 			fprintf( fout, "%f,%f\n", atof(line), lr.calc() );
+		else if( show_slope )
+			fprintf( fout, "%f,%f\n", lr.calc(), lr.slope() );
 		else
 			fprintf( fout, "%f\n", lr.calc() );
 	}
 
-
 	exit(0);
 }
-
