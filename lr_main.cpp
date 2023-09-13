@@ -25,7 +25,7 @@ int main( int argc, char **argv )
 		fin = fopen( argv[1], "r" );
 		fout= stdout;
 	}
-	else if( argc > 5 )
+	else if( argc > 4 )
 	{
 		fin = fopen( argv[1], "r" );
 		fout= fopen( argv[2], "w" );
